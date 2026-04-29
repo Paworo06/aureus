@@ -1,0 +1,19 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+
+class RolesSeeder extends Seeder
+{
+    public function run(): void
+    {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        Role::create(['name' => 'administrador']);
+        Role::create(['name' => 'secretario']);
+        Role::create(['name' => 'tesorero']);
+        Role::create(['name' => 'usuario']);
+    }
+}

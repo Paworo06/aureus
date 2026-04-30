@@ -9,17 +9,21 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class HermanosExport implements FromCollection, WithHeadings, WithMapping
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function collection()
     {
-        return Hermano::all();
+        return Hermano::with(['planPago', 'user'])
+            ->where('activo', true)
+            ->orderBy('apellido1')
+            ->get();
     }
 
     public function headings(): array
     {
-        return ['ID', 'Nombre', 'Primer Apellido', 'Segundo Apellido', 'DNI', 'Dirección', 'Teléfono', 'Fecha Creación'];
+        return [
+            'ID', 'Nombre', 'Primer Apellido', 'Segundo Apellido',
+            'DNI', 'Email', 'Dirección', 'Teléfono',
+            'Importe Total', 'Pagado', 'Pendiente', 'Estado', 'Fecha Ingreso'
+        ];
     }
 
     public function map($hermano): array
@@ -30,9 +34,14 @@ class HermanosExport implements FromCollection, WithHeadings, WithMapping
             $hermano->apellido1,
             $hermano->apellido2,
             $hermano->dni,
-            $hermano->direccion,
-            " " . $hermano->telefono, // El espacio hace que excel trate el campo como texto
-            $hermano->created_at->format('d/m/Y'),
+            $hermano->user?->email ?? '—',
+            $hermano->direccion ?? '—',
+            " " . $hermano->telefono,
+            $hermano->planPago?->importe_total ?? 0,
+            $hermano->planPago?->importe_pagado ?? 0,
+            $hermano->planPago?->importe_pendiente ?? 0,
+            $hermano->planPago?->estado ?? 'sin plan',
+            $hermano->fecha_ingreso?->format('d/m/Y') ?? '—',
         ];
     }
 }

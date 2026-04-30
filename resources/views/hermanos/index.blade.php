@@ -4,7 +4,18 @@
 
 <div class="page-header">
     <h1>Gestión de <span>Hermanos</span></h1>
-    <a href="{{ route('hermanos.create') }}" class="btn btn-naranja">+ Nuevo hermano</a>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+        @role('administrador|tesorero')
+        <a href="{{ route('hermanos.export') }}" class="btn btn-success">
+            📊 Exportar Excel
+        </a>
+        @endrole
+        @role('administrador|secretario')
+        <a href="{{ route('hermanos.create') }}" class="btn btn-naranja">
+            + Nuevo hermano
+        </a>
+        @endrole
+    </div>
 </div>
 
 <div class="card">
@@ -61,14 +72,6 @@
                            class="btn btn-secondary btn-sm">Ver</a>
                         <a href="{{ route('hermanos.edit', $hermano) }}"
                            class="btn btn-primary btn-sm">Editar</a>
-                        <form method="POST"
-                              action="{{ route('hermanos.destroy', $hermano) }}">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm
-                                {{ $hermano->activo ? 'btn-danger' : 'btn-success' }}">
-                                {{ $hermano->activo ? 'Dar de baja' : 'Dar de alta' }}
-                            </button>
-                        </form>
                     </td>
                 </tr>
                 @empty

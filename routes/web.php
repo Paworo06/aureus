@@ -26,6 +26,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mosaico', [MosaicoController::class, 'index'])
         ->name('mosaico');
 
+    // Perfil para actualizar datos
+    Route::get('/mi-perfil', [App\Http\Controllers\PerfilController::class, 'edit'])
+        ->name('perfil.edit');
+    Route::put('/mi-perfil', [App\Http\Controllers\PerfilController::class, 'update'])
+        ->name('perfil.update');
+
     // Hermanos — solo admin y secretario
     Route::middleware(['role:administrador|secretario'])->group(function () {
         Route::resource('hermanos', HermanoController::class);
@@ -75,8 +81,21 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Exports a Excel
-    Route::get('export-hermanos', [HermanoController::class, 'export']);
+    Route::middleware(['role:administrador|tesorero'])->group(function () {
+        Route::get('/export-hermanos', [HermanoController::class, 'export'])
+            ->name('hermanos.export');
+    });
 });
 
-// Rutas de autenticación generadas por Breeze
-require __DIR__.'/auth.php';
+// Rutas de autenticación — solo login, sin registro público
+Route::get('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])
+    ->middleware('guest')->name('login');
+
+Route::post('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest');
+
+Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')->name('logout');
+
+// Rutas de autenticación generadas por Breeze (comentadas para omitir su uso)
+//require __DIR__.'/auth.php';

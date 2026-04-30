@@ -173,11 +173,6 @@
             </button>
         </form>
     </div>
-
-    <div class="auth-footer">
-        ¿No tienes cuenta?
-        <a href="{{ route('register') }}">Regístrate aquí</a>
-    </div>
 </div>
 </body>
 </html>

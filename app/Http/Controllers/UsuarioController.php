@@ -77,7 +77,12 @@ class UsuarioController extends Controller
         AuditoriaService::registrar($accion, 'User', $usuario->id,
             "Usuario {$usuario->name} dado de {$accion}.");
 
-        Mail::to($usuario->email)->send(new AvisoAltaBajaMail($usuario, $accion));
+        try {
+            Mail::to($usuario->email)->send(new AvisoAltaBajaMail($usuario, $accion));
+        } catch (\Exception $e) {
+            \Log::error("Error enviando correo alta/baja: " . $e->getMessage());
+        }
+        
 
         return redirect()->route('usuarios.index')
             ->with('success', "Usuario dado de {$accion} correctamente.");

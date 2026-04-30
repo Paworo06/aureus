@@ -320,7 +320,10 @@
     </div>
 
     <div class="navbar-user">
-        <span>{{ auth()->user()->name }}</span>
+        <a href="{{ route('perfil.edit') }}" class="btn btn-secondary"
+        style="font-size:0.85rem; padding:0.35rem 0.9rem;">
+            Cuenta
+        </a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-logout">Cerrar sesión</button>

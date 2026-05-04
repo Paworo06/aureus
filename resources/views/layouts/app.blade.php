@@ -6,130 +6,251 @@
     <title>Aureus — @yield('titulo', 'Gestión de Hermandades')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        :root {
-            --azul:   #2E4057;
-            --naranja:#D4622A;
-            --gris:   #555555;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #F4F6F8;
-            color: var(--gris);
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
             min-height: 100vh;
         }
 
-        /* NAVBAR */
-        .navbar {
-            background: var(--azul);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            height: 60px;
-            position: sticky;
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            min-height: 100vh;
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
         }
 
-        .navbar-brand {
+        .sidebar-logo {
+            padding: 20px;
+            border-bottom: 1px solid #3d5166;
+            text-align: center;
+        }
+
+        .sidebar-logo h1 {
             color: white;
-            font-size: 1.4rem;
-            font-weight: 700;
-            text-decoration: none;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .sidebar-logo h1 span {
+            color: #e67e22;
+        }
+
+        .sidebar-logo p {
+            color: #7f8c8d;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .sidebar-user {
+            padding: 15px 20px;
+            border-bottom: 1px solid #3d5166;
+        }
+
+        .sidebar-user p {
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .sidebar-user span {
+            color: #7f8c8d;
+            font-size: 11px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 10px 0;
+        }
+
+        .nav-section-title {
+            color: #7f8c8d;
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 10px 20px 4px;
             letter-spacing: 1px;
         }
 
-        .navbar-brand span { color: var(--naranja); }
-
-        .navbar-links {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .navbar-links a {
-            color: rgba(255,255,255,0.85);
+        .nav-item {
+            display: block;
+            padding: 10px 20px;
+            color: #bdc3c7;
             text-decoration: none;
-            padding: 0.4rem 0.9rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: background 0.2s;
+            font-size: 13px;
         }
 
-        .navbar-links a:hover,
-        .navbar-links a.active {
-            background: rgba(255,255,255,0.15);
+        .nav-item:hover {
+            background-color: #3d5166;
             color: white;
         }
 
-        .navbar-user {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: rgba(255,255,255,0.85);
-            font-size: 0.85rem;
+        .nav-item.active {
+            background-color: #e67e22;
+            color: white;
+        }
+
+        .sidebar-bottom {
+            padding: 15px 20px;
+            border-top: 1px solid #3d5166;
         }
 
         .btn-logout {
-            background: var(--naranja);
-            color: white !important;
-            padding: 0.35rem 0.9rem !important;
-            border-radius: 6px !important;
-            font-size: 0.85rem;
+            background-color: #c0392b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            width: 100%;
         }
 
-        .btn-logout:hover { background: #b8531f !important; }
+        .btn-logout:hover {
+            background-color: #e74c3c;
+        }
 
-        /* CONTENIDO */
+        .btn-theme {
+            background-color: #3d5166;
+            color: #bdc3c7;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .btn-theme:hover {
+            background-color: #4a6278;
+            color: white;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .main-wrapper {
+            margin-left: 220px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            background-color: white;
+            padding: 12px 25px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h2 {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .topbar h2 span {
+            color: #e67e22;
+        }
+
         .main-content {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+            padding: 25px;
+            flex: 1;
         }
 
-        /* TARJETAS */
+        /* CARDS */
         .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
         .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--azul);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--naranja);
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e67e22;
             display: inline-block;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            color: #2c3e50;
+        }
+
+        .page-header h1 span {
+            color: #e67e22;
+        }
+
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px 20px;
+            border-left: 4px solid #e67e22;
+        }
+
+        .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-card .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 4px;
         }
 
         /* BOTONES */
         .btn {
             display: inline-block;
-            padding: 0.45rem 1.1rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
+            padding: 7px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
             cursor: pointer;
             border: none;
             text-decoration: none;
-            transition: opacity 0.2s;
         }
 
         .btn:hover { opacity: 0.85; }
-        .btn-primary   { background: var(--azul);    color: white; }
-        .btn-naranja   { background: var(--naranja);  color: white; }
-        .btn-danger    { background: #e74c3c;          color: white; }
-        .btn-success   { background: #27ae60;          color: white; }
-        .btn-secondary { background: #95a5a6;          color: white; }
-        .btn-sm        { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+        .btn-primary   { background-color: #2c3e50; color: white; }
+        .btn-naranja   { background-color: #e67e22; color: white; }
+        .btn-danger    { background-color: #e74c3c; color: white; }
+        .btn-success   { background-color: #27ae60; color: white; }
+        .btn-secondary { background-color: #95a5a6; color: white; }
+        .btn-sm        { padding: 4px 10px; font-size: 12px; }
 
         /* TABLAS */
         .table-wrapper { overflow-x: auto; }
@@ -137,213 +258,238 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
+            font-size: 13px;
         }
 
         thead th {
-            background: var(--azul);
+            background-color: #2c3e50;
             color: white;
-            padding: 0.75rem 1rem;
+            padding: 10px 12px;
             text-align: left;
-            font-weight: 600;
         }
 
-        tbody tr { border-bottom: 1px solid #eee; transition: background 0.15s; }
-        tbody tr:hover { background: #f9f9f9; }
-        tbody td { padding: 0.7rem 1rem; }
+        tbody tr {
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tbody td {
+            padding: 9px 12px;
+        }
 
         /* FORMULARIOS */
-        .form-group { margin-bottom: 1.1rem; }
+        .form-group { margin-bottom: 15px; }
 
         .form-group label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--azul);
-            margin-bottom: 0.35rem;
+            font-size: 13px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 0.55rem 0.85rem;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: border-color 0.2s;
+            padding: 8px 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 13px;
         }
 
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--azul);
+            border-color: #e67e22;
         }
 
-        .form-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-        }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
         /* ALERTAS */
         .alert {
-            padding: 0.85rem 1.2rem;
-            border-radius: 8px;
-            margin-bottom: 1.2rem;
-            font-size: 0.9rem;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
         }
 
-        .alert-success { background: #d4edda; color: #155724; border-left: 4px solid #27ae60; }
-        .alert-error   { background: #f8d7da; color: #721c24; border-left: 4px solid #e74c3c; }
-        .alert-warning { background: #fff3cd; color: #856404; border-left: 4px solid #f39c12; }
+        .alert-success { background-color: #d5f5e3; color: #1e8449; border: 1px solid #a9dfbf; }
+        .alert-error   { background-color: #fadbd8; color: #922b21; border: 1px solid #f1948a; }
+        .alert-warning { background-color: #fdebd0; color: #9c640c; border: 1px solid #f8c471; }
 
         /* BADGES */
         .badge {
             display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-success  { background: #d4edda; color: #155724; }
-        .badge-danger   { background: #f8d7da; color: #721c24; }
-        .badge-warning  { background: #fff3cd; color: #856404; }
-        .badge-info     { background: #d1ecf1; color: #0c5460; }
-
-        /* PÁGINA TÍTULO */
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-        }
-
-        .page-header h1 {
-            font-size: 1.5rem;
-            color: var(--azul);
-            font-weight: 700;
-        }
-
-        .page-header h1 span {
-            color: var(--naranja);
-        }
-
-        /* STATS CARDS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            background: white;
+            padding: 3px 8px;
             border-radius: 10px;
-            padding: 1.2rem 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            border-left: 4px solid var(--naranja);
+            font-size: 11px;
+            font-weight: bold;
         }
 
-        .stat-card .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--azul);
-        }
+        .badge-success { background-color: #d5f5e3; color: #1e8449; }
+        .badge-danger  { background-color: #fadbd8; color: #922b21; }
+        .badge-warning { background-color: #fdebd0; color: #9c640c; }
+        .badge-info    { background-color: #d6eaf8; color: #1a5276; }
 
-        .stat-card .stat-label {
-            font-size: 0.85rem;
-            color: var(--gris);
-            margin-top: 0.2rem;
-        }
+        .error-text { color: #e74c3c; font-size: 12px; margin-top: 4px; }
 
-        /* ERRORES VALIDACIÓN */
-        .error-text {
-            color: #e74c3c;
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
+        /* MODO OSCURO */
+        body.dark { background-color: #1a1a2e; color: #e0e0e0; }
+        body.dark .sidebar { background-color: #16213e; }
+        body.dark .sidebar-logo { border-color: #0f3460; }
+        body.dark .sidebar-user { border-color: #0f3460; }
+        body.dark .nav-item { color: #a0a0b0; }
+        body.dark .nav-item:hover { background-color: #0f3460; color: white; }
+        body.dark .sidebar-bottom { border-color: #0f3460; }
+        body.dark .btn-theme { background-color: #0f3460; }
+        body.dark .topbar { background-color: #16213e; border-color: #0f3460; }
+        body.dark .topbar h2 { color: #e0e0e0; }
+        body.dark .card { background-color: #16213e; border-color: #0f3460; }
+        body.dark .card-title { color: #e0e0e0; }
+        body.dark .page-header h1 { color: #e0e0e0; }
+        body.dark .stat-card { background-color: #16213e; border-color: #0f3460; }
+        body.dark .stat-card .stat-number { color: #e0e0e0; }
+        body.dark .stat-card .stat-label { color: #a0a0b0; }
+        body.dark table thead th { background-color: #0f3460; }
+        body.dark tbody tr { border-color: #0f3460; }
+        body.dark tbody tr:hover { background-color: #0f3460; }
+        body.dark tbody td { color: #e0e0e0; }
+        body.dark .form-group label { color: #e0e0e0; }
+        body.dark .form-group input,
+        body.dark .form-group select,
+        body.dark .form-group textarea {
+            background-color: #0f3460;
+            border-color: #1a5276;
+            color: #e0e0e0;
         }
+        body.dark .btn-secondary { background-color: #0f3460; }
     </style>
 </head>
 <body>
 
-{{-- NAVBAR --}}
-<nav class="navbar">
-    <a href="{{ route('dashboard') }}" class="navbar-brand">
-        Au<span>reus</span>
-    </a>
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <h1>Au<span>reus</span></h1>
+        <p>Gestión de Hermandades</p>
+    </div>
 
-    <div class="navbar-links">
+    <div class="sidebar-user">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <p>{{ auth()->user()->name }}</p>
+                <span>{{ auth()->user()->roles->first()?->name ?? 'usuario' }}</span>
+            </div>
+            <a href="{{ route('perfil.edit') }}" title="Editar perfil"
+            style="color:#7f8c8d; text-decoration:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-title">General</div>
+
         <a href="{{ route('dashboard') }}"
-           class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+           class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
             Dashboard
         </a>
 
         <a href="{{ route('mosaico') }}"
-           class="{{ request()->routeIs('mosaico') ? 'active' : '' }}">
+           class="nav-item {{ request()->routeIs('mosaico') ? 'active' : '' }}">
             Mosaico
         </a>
 
         @role('administrador|secretario')
-        <a href="{{ route('hermanos.index') }}"
-           class="{{ request()->routeIs('hermanos.*') ? 'active' : '' }}">
-            Hermanos
-        </a>
-        @endrole
+        <div class="nav-section-title">Gestión</div>
 
-        @role('administrador|tesorero')
-        <a href="{{ route('pagos.index') }}"
-           class="{{ request()->routeIs('pagos.*') ? 'active' : '' }}">
-            Pagos
+        <a href="{{ route('hermanos.index') }}"
+           class="nav-item {{ request()->routeIs('hermanos.*') ? 'active' : '' }}">
+            Hermanos
         </a>
         @endrole
 
         @role('administrador')
         <a href="{{ route('usuarios.index') }}"
-           class="{{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
+           class="nav-item {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
             Usuarios
         </a>
-        
+        @endrole
+
+        @role('administrador|tesorero')
+        <div class="nav-section-title">Económico</div>
+
+        <a href="{{ route('pagos.index') }}"
+           class="nav-item {{ request()->routeIs('pagos.*') ? 'active' : '' }}">
+            Pagos
+        </a>
+        @endrole
+
+        @role('administrador')
+        <div class="nav-section-title">Sistema</div>
+
         <a href="{{ route('auditoria.index') }}"
-           class="{{ request()->routeIs('auditoria.*') ? 'active' : '' }}">
+           class="nav-item {{ request()->routeIs('auditoria.*') ? 'active' : '' }}">
             Auditoría
         </a>
         @endrole
-    </div>
+    </nav>
 
-    <div class="navbar-user">
-        <a href="{{ route('perfil.edit') }}" class="btn btn-secondary"
-        style="font-size:0.85rem; padding:0.35rem 0.9rem;">
-            Cuenta
-        </a>
+    <div class="sidebar-bottom">
+        <button class="btn-theme" onclick="toggleTheme()" id="btnTema">
+            Modo oscuro
+        </button>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="btn btn-logout">Cerrar sesión</button>
+            <button type="submit" class="btn-logout">
+                Cerrar sesión
+            </button>
         </form>
     </div>
-</nav>
+</aside>
 
-{{-- CONTENIDO --}}
-<main class="main-content">
+<div class="main-wrapper">
+    <div class="topbar">
+        <h2>Au<span>reus</span> — @yield('titulo', 'Panel de control')</h2>
+        <div>@yield('topbar_actions')</div>
+    </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <main class="main-content">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-    @if(session('error'))
-        <div class="alert alert-error">{{ session('error') }}</div>
-    @endif
+        @if(session('error'))
+            <div class="alert alert-error">{{ session('error') }}</div>
+        @endif
 
-    @yield('content')
-</main>
+        @yield('content')
+    </main>
+</div>
+
+<script>
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('tema', isDark ? 'dark' : 'light');
+        document.getElementById('btnTema').textContent =
+            isDark ? 'Modo claro' : 'Modo oscuro';
+    }
+
+    if (localStorage.getItem('tema') === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('btnTema').textContent = 'Modo claro';
+    }
+</script>
 
 </body>
 </html>

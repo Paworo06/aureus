@@ -51,7 +51,7 @@ class UsuarioController extends Controller
         AuditoriaService::registrar('editar', 'User', $usuario->id,
             "Usuario {$usuario->name} editado. Rol asignado: {$request->rol}.");
 
-        return redirect()->route('usuarios.index')
+        return redirect()->route('hermanos.index')
             ->with('success', 'Usuario actualizado correctamente.');
     }
 

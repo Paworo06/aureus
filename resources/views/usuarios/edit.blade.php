@@ -4,7 +4,7 @@
 
 <div class="page-header">
     <h1>Editar <span>Usuario</span></h1>
-    <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">← Volver</a>
+    <a href="{{ route('hermanos.index') }}" class="btn btn-secondary">← Volver</a>
 </div>
 
 <div class="card">
@@ -63,7 +63,7 @@
             <button type="submit" class="btn btn-naranja">
                 Guardar cambios
             </button>
-            <a href="{{ route('usuarios.index') }}"
+            <a href="{{ route('hermanos.index') }}"
                class="btn btn-secondary">Cancelar</a>
         </div>
     </form>

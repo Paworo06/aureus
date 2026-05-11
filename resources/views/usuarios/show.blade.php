@@ -7,7 +7,7 @@
     <div style="display:flex; gap:0.5rem;">
         <a href="{{ route('usuarios.edit', $usuario) }}"
            class="btn btn-primary">Editar</a>
-        <a href="{{ route('usuarios.index') }}"
+        <a href="{{ route('hermanos.index') }}"
            class="btn btn-secondary">← Volver</a>
     </div>
 </div>

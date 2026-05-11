@@ -80,7 +80,7 @@ class HermanoController extends Controller
             "Hermano {$hermano->nombre_completo} creado con usuario vinculado.");
 
         return redirect()->route('hermanos.index')
-            ->with('success', 'Hermano y usuario creados correctamente.');
+            ->with('success', 'Hermano creado correctamente.');
     }
 
     public function show(Hermano $hermano)

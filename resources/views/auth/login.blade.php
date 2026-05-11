@@ -9,170 +9,239 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #F4F6F8;
+            font-family: Arial, sans-serif;
             min-height: 100vh;
             display: flex;
-            align-items: center;
+        }
+
+        /* LADO IZQUIERDO */
+        .login-left {
+            width: 45%;
+            background-color: #2c3e50;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
         }
 
-        .auth-wrapper {
+        .login-logo {
+            font-size: 52px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 4px;
+            font-family: Georgia, serif;
+            margin-bottom: 10px;
+        }
+
+        .login-logo span { color: #e67e22; }
+
+        .login-tagline {
+            color: #7f8c8d;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+        }
+
+        .login-info {
             width: 100%;
-            max-width: 420px;
-            padding: 1rem;
+            max-width: 300px;
         }
 
-        .auth-logo {
-            text-align: center;
-            margin-bottom: 1.5rem;
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 28px;
         }
 
-        .auth-logo h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2E4057;
-            letter-spacing: 2px;
+        .info-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #e67e22;
+            margin-top: 5px;
+            flex-shrink: 0;
         }
 
-        .auth-logo h1 span { color: #D4622A; }
-
-        .auth-logo p {
-            color: #888;
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
+        .info-item p {
+            color: #bdc3c7;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
-        .auth-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 2rem;
+        .info-item p strong {
+            color: white;
+            display: block;
+            margin-bottom: 2px;
         }
 
-        .form-group { margin-bottom: 1.1rem; }
+        /* LADO DERECHO */
+        .login-right {
+            flex: 1;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 70px;
+        }
+
+        .login-right h2 {
+            font-size: 26px;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .login-right h2 span { color: #e67e22; }
+
+        .login-subtitle {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 35px;
+        }
+
+        .form-group { margin-bottom: 18px; }
 
         .form-group label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #2E4057;
-            margin-bottom: 0.35rem;
+            font-size: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 0.6rem 0.9rem;
+            padding: 12px 14px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+            color: #2c3e50;
             transition: border-color 0.2s;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #2E4057;
+            border-color: #e67e22;
         }
 
-        .error-text {
-            color: #e74c3c;
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
+        .error-box {
+            background-color: #fadbd8;
+            color: #922b21;
+            border: 1px solid #f1948a;
+            border-radius: 4px;
+            padding: 10px 14px;
+            font-size: 13px;
+            margin-bottom: 18px;
         }
 
-        .btn-submit {
+        .btn-login {
             width: 100%;
-            padding: 0.7rem;
-            background: #D4622A;
+            padding: 13px;
+            background-color: #e67e22;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 0.5rem;
+            margin-top: 8px;
+            transition: background-color 0.2s;
         }
 
-        .btn-submit:hover { background: #b8531f; }
+        .btn-login:hover { background-color: #d35400; }
 
-        .auth-footer {
+        .login-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #95a5a6;
             text-align: center;
-            margin-top: 1.2rem;
-            font-size: 0.875rem;
-            color: #888;
-        }
-
-        .auth-footer a {
-            color: #D4622A;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .auth-footer a:hover { text-decoration: underline; }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #e74c3c;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
         }
     </style>
 </head>
 <body>
-<div class="auth-wrapper">
-    <div class="auth-logo">
-        <h1>Au<span>reus</span></h1>
-        <p>Gestión de Hermandades</p>
-    </div>
 
-    <div class="auth-card">
-        <h2 style="color:#2E4057; margin-bottom:1.5rem; font-size:1.2rem;">
-            Iniciar sesión
-        </h2>
+<div class="login-left">
+    <div class="login-logo">Au<span>reus</span></div>
+    <div class="login-tagline">Gestión de Hermandades</div>
 
-        @if($errors->any())
-        <div class="alert-error">
-            {{ $errors->first() }}
+    <div class="login-info">
+        <div class="info-item">
+            <div class="info-dot"></div>
+            <p>
+                <strong>Control de hermanos</strong>
+                Gestiona altas, bajas y datos de todos los miembros desde un solo lugar.
+            </p>
         </div>
-        @endif
-
-        @if(session('error'))
-        <div class="alert-error">
-            {{ session('error') }}
+        <div class="info-item">
+            <div class="info-dot"></div>
+            <p>
+                <strong>Gestión económica</strong>
+                Seguimiento de cuotas, pagos y generación automática de recibos en PDF.
+            </p>
         </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email"
-                       value="{{ old('email') }}"
-                       placeholder="tu@email.com"
-                       autofocus required>
-                @error('email')
-                    <p class="error-text">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" name="password"
-                       placeholder="••••••••" required>
-                @error('password')
-                    <p class="error-text">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <button type="submit" class="btn-submit">
-                Entrar
-            </button>
-        </form>
+        <div class="info-item">
+            <div class="info-dot"></div>
+            <p>
+                <strong>Mosaico interactivo</strong>
+                Visualiza el estado de pago de cada hermano de un solo vistazo.
+            </p>
+        </div>
+        <div class="info-item">
+            <div class="info-dot"></div>
+            <p>
+                <strong>Acceso por roles</strong>
+                Administrador, Secretario, Tesorero y Usuario con permisos diferenciados.
+            </p>
+        </div>
     </div>
 </div>
+
+<div class="login-right">
+    <h2>Bienvenido a <span>Aureus</span></h2>
+    <p class="login-subtitle">Introduce tus credenciales para acceder al panel</p>
+
+    @if($errors->any())
+    <div class="error-box">{{ $errors->first() }}</div>
+    @endif
+
+    @if(session('error'))
+    <div class="error-box">{{ session('error') }}</div>
+    @endif
+
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email"
+                   value="{{ old('email') }}"
+                   placeholder="tu@email.com"
+                   autofocus required>
+        </div>
+
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" name="password"
+                   placeholder="••••••••"
+                   required>
+        </div>
+
+        <button type="submit" class="btn-login">
+            Entrar
+        </button>
+    </form>
+
+    <div class="login-footer">
+        Para obtener acceso contacta con el administrador de tu hermandad.
+    </div>
+</div>
+
 </body>
 </html>

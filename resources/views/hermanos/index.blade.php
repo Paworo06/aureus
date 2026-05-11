@@ -1,13 +1,13 @@
 @extends('layouts.app')
-@section('titulo', 'Hermanos')
+@section('titulo', 'Hermanos y Usuarios')
 @section('content')
 
 <div class="page-header">
     <h1>Gestión de <span>Hermanos</span></h1>
-    <div style="display:flex; gap:0.5rem; align-items:center;">
+    <div style="display:flex; gap:0.5rem;">
         @role('administrador|tesorero')
         <a href="{{ route('hermanos.export') }}" class="btn btn-success">
-            📊 Exportar Excel
+            Exportar Excel
         </a>
         @endrole
         @role('administrador|secretario')
@@ -24,10 +24,10 @@
                id="buscador"
                placeholder="Buscar por nombre, apellido o DNI..."
                style="flex:1; min-width:200px; padding:0.5rem 0.85rem;
-                      border:1px solid #ccc; border-radius:6px; font-size:0.9rem;">
+                      border:1px solid #bdc3c7; border-radius:4px; font-size:13px;">
         <select id="filtroEstado"
-                style="padding:0.5rem 0.85rem; border:1px solid #ccc;
-                       border-radius:6px; font-size:0.9rem;">
+                style="padding:0.5rem 0.85rem; border:1px solid #bdc3c7;
+                       border-radius:4px; font-size:13px;">
             <option value="">Todos los estados</option>
             <option value="activo">Activos</option>
             <option value="baja">Bajas</option>
@@ -37,7 +37,7 @@
         </button>
     </div>
 
-    <p id="contador" style="font-size:0.85rem; color:#888; margin-bottom:0.75rem;"></p>
+    <p id="contador" style="font-size:12px; color:#7f8c8d; margin-bottom:0.75rem;"></p>
 
     <div class="table-wrapper">
         <table>
@@ -45,9 +45,11 @@
                 <tr>
                     <th>Nombre completo</th>
                     <th>DNI</th>
+                    <th>Email</th>
                     <th>Teléfono</th>
-                    <th>Fecha ingreso</th>
-                    <th>Estado</th>
+                    <th>Rol</th>
+                    <th>Estado pago</th>
+                    <th>Estado cuenta</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -58,8 +60,26 @@
                     data-estado="{{ $hermano->activo ? 'activo' : 'baja' }}">
                     <td>{{ $hermano->nombre_completo }}</td>
                     <td>{{ $hermano->dni }}</td>
+                    <td>{{ $hermano->user?->email ?? '—' }}</td>
                     <td>{{ $hermano->telefono ?? '—' }}</td>
-                    <td>{{ $hermano->fecha_ingreso?->format('d/m/Y') ?? '—' }}</td>
+                    <td>
+                        <span class="badge badge-info">
+                            {{ $hermano->user?->roles->first()?->name ?? 'sin rol' }}
+                        </span>
+                    </td>
+                    <td>
+                        @if($hermano->planPago)
+                            @if($hermano->planPago->estado === 'al_dia')
+                                <span class="badge badge-success">Al día</span>
+                            @elseif($hermano->planPago->estado === 'pendiente')
+                                <span class="badge badge-warning">Pendiente</span>
+                            @else
+                                <span class="badge badge-danger">En mora</span>
+                            @endif
+                        @else
+                            <span class="badge badge-info">Sin plan</span>
+                        @endif
+                    </td>
                     <td>
                         @if($hermano->activo)
                             <span class="badge badge-success">Activo</span>
@@ -72,11 +92,28 @@
                            class="btn btn-secondary btn-sm">Ver</a>
                         <a href="{{ route('hermanos.edit', $hermano) }}"
                            class="btn btn-primary btn-sm">Editar</a>
+                        @if($hermano->user)
+                        @role('administrador')
+                        <a href="{{ route('usuarios.edit', $hermano->user) }}"
+                           class="btn btn-naranja btn-sm">Rol</a>
+                        @endrole
+                        @endif
+                        @role('administrador')
+                        <form method="POST"
+                              action="{{ route('usuarios.toggle', $hermano->user) }}"
+                              style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-sm
+                                {{ $hermano->activo ? 'btn-danger' : 'btn-success' }}">
+                                {{ $hermano->activo ? 'Dar de baja' : 'Dar de alta' }}
+                            </button>
+                        </form>
+                        @endrole
                     </td>
                 </tr>
                 @empty
-                <tr id="sinResultados">
-                    <td colspan="6" style="text-align:center; color:#aaa;">
+                <tr>
+                    <td colspan="8" style="text-align:center; color:#7f8c8d;">
                         No hay hermanos registrados.
                     </td>
                 </tr>
@@ -84,33 +121,30 @@
             </tbody>
         </table>
         <p id="sinResultadosFiltro"
-           style="display:none; text-align:center;
-                  color:#aaa; padding:1.5rem;">
+           style="display:none; text-align:center; color:#7f8c8d; padding:1.5rem;">
             No se encontraron hermanos con ese criterio.
         </p>
     </div>
 </div>
 
 <script>
-    const buscador     = document.getElementById('buscador');
-    const filtroEstado = document.getElementById('filtroEstado');
-    const filas        = document.querySelectorAll('#tablaHermanos tr');
-    const contador     = document.getElementById('contador');
+    const buscador      = document.getElementById('buscador');
+    const filtroEstado  = document.getElementById('filtroEstado');
+    const contador      = document.getElementById('contador');
     const sinResultados = document.getElementById('sinResultadosFiltro');
 
     function filtrar() {
         const texto  = buscador.value.toLowerCase().trim();
         const estado = filtroEstado.value;
+        const filas  = document.querySelectorAll('#tablaHermanos tr[data-nombre]');
         let visibles = 0;
 
         filas.forEach(fila => {
-            if (!fila.dataset.nombre) return;
+            const coincideTexto = texto === '' ||
+                fila.dataset.nombre.indexOf(texto) !== -1 ||
+                fila.dataset.dni.indexOf(texto) !== -1;
 
-            const coincideTexto = !texto ||
-                fila.dataset.nombre.includes(texto) ||
-                fila.dataset.dni.includes(texto);
-
-            const coincideEstado = !estado ||
+            const coincideEstado = estado === '' ||
                 fila.dataset.estado === estado;
 
             if (coincideTexto && coincideEstado) {
@@ -121,12 +155,10 @@
             }
         });
 
-        // Contador de resultados
         contador.textContent = visibles === filas.length
             ? ''
             : `${visibles} resultado${visibles !== 1 ? 's' : ''} encontrado${visibles !== 1 ? 's' : ''}`;
 
-        // Mensaje sin resultados
         sinResultados.style.display = visibles === 0 ? 'block' : 'none';
     }
 

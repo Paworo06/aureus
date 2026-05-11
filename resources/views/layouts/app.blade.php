@@ -341,34 +341,69 @@
 
         /* MODO OSCURO */
         body.dark { background-color: #1a1a2e; color: #e0e0e0; }
-        body.dark .sidebar { background-color: #16213e; }
-        body.dark .sidebar-logo { border-color: #0f3460; }
-        body.dark .sidebar-user { border-color: #0f3460; }
-        body.dark .nav-item { color: #a0a0b0; }
-        body.dark .nav-item:hover { background-color: #0f3460; color: white; }
-        body.dark .sidebar-bottom { border-color: #0f3460; }
-        body.dark .btn-theme { background-color: #0f3460; }
-        body.dark .topbar { background-color: #16213e; border-color: #0f3460; }
+
+        body.dark .sidebar { background-color: #0f1623; }
+        body.dark .sidebar-logo { border-color: #1e2d3d; }
+        body.dark .sidebar-logo h1 { color: white; }
+        body.dark .sidebar-logo p { color: #4a6278; }
+
+        body.dark .sidebar-user { border-color: #1e2d3d; }
+        body.dark .sidebar-user p { color: #e0e0e0; }
+        body.dark .sidebar-user span { color: #4a6278; }
+        body.dark .sidebar-user a { color: #4a6278; }
+
+        body.dark .nav-section-title { color: #4a6278; }
+        body.dark .nav-item { color: #7f8c8d; }
+        body.dark .nav-item:hover { background-color: #1e2d3d; color: #e0e0e0; }
+        body.dark .nav-item.active { background-color: #e67e22; color: white; }
+
+        body.dark .sidebar-bottom { border-color: #1e2d3d; }
+        body.dark .btn-theme { background-color: #1e2d3d; color: #7f8c8d; }
+        body.dark .btn-theme:hover { background-color: #263748; color: #e0e0e0; }
+        body.dark .btn-logout { background-color: #7b241c; }
+        body.dark .btn-logout:hover { background-color: #922b21; }
+
+        body.dark .topbar { background-color: #0f1623; border-color: #1e2d3d; }
         body.dark .topbar h2 { color: #e0e0e0; }
-        body.dark .card { background-color: #16213e; border-color: #0f3460; }
+
+        body.dark .card { background-color: #16213e; border-color: #1e2d3d; }
         body.dark .card-title { color: #e0e0e0; }
         body.dark .page-header h1 { color: #e0e0e0; }
-        body.dark .stat-card { background-color: #16213e; border-color: #0f3460; }
+
+        body.dark .stat-card { background-color: #16213e; border-color: #1e2d3d; }
         body.dark .stat-card .stat-number { color: #e0e0e0; }
-        body.dark .stat-card .stat-label { color: #a0a0b0; }
-        body.dark table thead th { background-color: #0f3460; }
-        body.dark tbody tr { border-color: #0f3460; }
-        body.dark tbody tr:hover { background-color: #0f3460; }
+        body.dark .stat-card .stat-label { color: #4a6278; }
+
+        body.dark table thead th { background-color: #0f1623; }
+        body.dark tbody tr { border-color: #1e2d3d; }
+        body.dark tbody tr:hover { background-color: #1e2d3d; }
         body.dark tbody td { color: #e0e0e0; }
-        body.dark .form-group label { color: #e0e0e0; }
+
+        body.dark .form-group label { color: #a0aec0; }
         body.dark .form-group input,
         body.dark .form-group select,
         body.dark .form-group textarea {
-            background-color: #0f3460;
-            border-color: #1a5276;
+            background-color: #0f1623;
+            border-color: #1e2d3d;
             color: #e0e0e0;
         }
-        body.dark .btn-secondary { background-color: #0f3460; }
+        body.dark .form-group input:focus,
+        body.dark .form-group select:focus,
+        body.dark .form-group textarea:focus {
+            border-color: #e67e22;
+        }
+
+        body.dark .btn-secondary { background-color: #1e2d3d; color: #a0aec0; }
+        body.dark .btn-secondary:hover { background-color: #263748; }
+
+        body.dark .alert-success { background-color: #0d3321; color: #6fcf97; border-color: #1e5c3a; }
+        body.dark .alert-error   { background-color: #3b1212; color: #f1948a; border-color: #7b241c; }
+        body.dark .alert-warning { background-color: #3b2a0a; color: #f5cba7; border-color: #7d6608; }
+
+        body.dark .badge-success { background-color: #0d3321; color: #6fcf97; }
+        body.dark .badge-danger  { background-color: #3b1212; color: #f1948a; }
+        body.dark .badge-warning { background-color: #3b2a0a; color: #f5cba7; }
+        body.dark .badge-info    { background-color: #0d2137; color: #7fb3e8; }
     </style>
 </head>
 <body>
@@ -415,13 +450,6 @@
         <a href="{{ route('hermanos.index') }}"
            class="nav-item {{ request()->routeIs('hermanos.*') ? 'active' : '' }}">
             Hermanos
-        </a>
-        @endrole
-
-        @role('administrador')
-        <a href="{{ route('usuarios.index') }}"
-           class="nav-item {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
-            Usuarios
         </a>
         @endrole
 

@@ -11,9 +11,25 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class HermanoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $hermanos = Hermano::orderBy('apellido1')->get();
+        $query = Hermano::with(['user', 'planPago']);
+
+        if ($request->filled('buscar')) {
+            $buscar = $request->buscar;
+            $query->where(function($q) use ($buscar) {
+                $q->where('nombre', 'like', "%{$buscar}%")
+                ->orWhere('apellido1', 'like', "%{$buscar}%")
+                ->orWhere('apellido2', 'like', "%{$buscar}%")
+                ->orWhere('dni', 'like', "%{$buscar}%");
+            });
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('activo', $request->estado === 'activo');
+        }
+
+        $hermanos = $query->orderBy('apellido1')->get();
         return view('hermanos.index', compact('hermanos'));
     }
 
@@ -28,8 +44,8 @@ class HermanoController extends Controller
             'nombre'        => 'required|string|max:50',
             'apellido1'     => 'required|string|max:50',
             'apellido2'     => 'nullable|string|max:50',
-            'dni'           => 'required|string|size:9|unique:hermanos,dni',
-            'email'         => 'required|email|unique:users,email',
+            'dni'           => 'required|string|size:9|unique:hermanos,dni|unique:users,dni',
+            'email'         => 'required|email|unique:users,email|unique:hermanos,email',
             'direccion'     => 'nullable|string|max:150',
             'telefono'      => 'nullable|string|max:15',
             'fecha_ingreso' => 'nullable|date',
@@ -38,7 +54,7 @@ class HermanoController extends Controller
         // Crear hermano
         $hermano = Hermano::create($data);
 
-        // Contraseña inicial = DNI
+        // Contraseña inicial = DNI en mayúsculas
         $passwordInicial = strtoupper($data['dni']);
 
         // Crear usuario vinculado
@@ -52,15 +68,19 @@ class HermanoController extends Controller
 
         $usuario->assignRole('usuario');
 
-        // Enviar correo de bienvenida con credenciales
-        \Illuminate\Support\Facades\Mail::to($usuario->email)
-            ->send(new \App\Mail\BienvenidaHermanMail($usuario, $passwordInicial));
+        // Enviar correo — con try/catch para que si falla el correo no rompa el flujo
+        try {
+            \Illuminate\Support\Facades\Mail::to($usuario->email)
+                ->send(new \App\Mail\BienvenidaHermanMail($usuario, $passwordInicial));
+        } catch (\Exception $e) {
+            \Log::error("Error enviando correo bienvenida hermano: " . $e->getMessage());
+        }
 
         AuditoriaService::registrar('crear', 'Hermano', $hermano->id,
             "Hermano {$hermano->nombre_completo} creado con usuario vinculado.");
 
         return redirect()->route('hermanos.index')
-            ->with('success', 'Hermano creado correctamente. Se ha enviado un correo con sus credenciales.');
+            ->with('success', 'Hermano y usuario creados correctamente.');
     }
 
     public function show(Hermano $hermano)

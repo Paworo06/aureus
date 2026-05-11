@@ -45,7 +45,7 @@ class HermanoController extends Controller
             'apellido1'     => 'required|string|max:50',
             'apellido2'     => 'nullable|string|max:50',
             'dni'           => 'required|string|size:9|unique:hermanos,dni|unique:users,dni',
-            'email'         => 'required|email|unique:users,email|unique:hermanos,email',
+            'email'         => 'required|email|unique:users,email',
             'direccion'     => 'nullable|string|max:150',
             'telefono'      => 'nullable|string|max:15',
             'fecha_ingreso' => 'nullable|date',

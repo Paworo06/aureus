@@ -84,7 +84,7 @@ class UsuarioController extends Controller
         }
         
 
-        return redirect()->route('usuarios.index')
+        return redirect()->route('hermanos.index')
             ->with('success', "Usuario dado de {$accion} correctamente.");
     }
 }

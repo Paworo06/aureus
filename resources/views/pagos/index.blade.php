@@ -8,9 +8,6 @@
         <a href="{{ route('hermanos.export') }}" class="btn btn-success">
             Exportar Excel
         </a>
-        <a href="{{ route('pagos.create') }}" class="btn btn-naranja">
-            + Registrar pago
-        </a>
     </div>
 </div>
 

@@ -68,6 +68,18 @@ class HermanoController extends Controller
 
         $usuario->assignRole('usuario');
 
+        // Crear plan de pago por defecto
+        \App\Models\PlanPago::create([
+            'hermano_id'     => $hermano->id,
+            'importe_total'  => 20.00,
+            'importe_pagado' => 0.00,
+            'cuotas_totales' => 1,
+            'cuotas_pagadas' => 0,
+            'periodicidad'   => 'anual',
+            'fecha_inicio'   => now(),
+            'activo'         => true,
+        ]);
+
         // Enviar correo — con try/catch para que si falla el correo no rompa el flujo
         try {
             \Illuminate\Support\Facades\Mail::to($usuario->email)

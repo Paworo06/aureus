@@ -58,12 +58,6 @@
             {{ ucfirst($hermano->planPago->periodicidad) }}</p>
         @else
         <p style="color:#aaa;">Sin plan de pago asignado.</p>
-        @role('administrador|tesorero')
-        <a href="{{ route('plan-pagos.create', ['hermano_id' => $hermano->id]) }}"
-           class="btn btn-naranja btn-sm" style="margin-top:1rem;">
-            Asignar plan de pago
-        </a>
-        @endrole
         @endif
     </div>
 </div>
